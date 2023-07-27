@@ -1,6 +1,6 @@
 # Plain Text Extractor
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Go Report Card](https://goreportcard.com/badge/github.com/huantt/plaintext-parser)](https://goreportcard.com/report/github.com/huantt/plaintext-parser)
+[![Go Report Card](https://goreportcard.com/badge/github.com/huantt/plaintext-extractor)](https://goreportcard.com/report/github.com/huantt/plaintext-extractor)
 
 Plain Text Extractor is a Golang library that helps you extract plain text from `HTML` and `Markdown`. 
 
