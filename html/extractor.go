@@ -2,10 +2,11 @@ package html
 
 import (
 	"golang.org/x/net/html"
+	"regexp"
 	"strings"
 )
 
-// HTMLExtractor represents an HTML-specific plain text extractor.
+// Extractor represents an HTML-specific plain text extractor.
 type Extractor struct {
 	blockTags map[string]bool
 }
@@ -34,7 +35,7 @@ func (e *Extractor) PlainText(input string) (*string, error) {
 	e.extractText(&plainText, doc)
 
 	output := plainText.String()
-	output = strings.ReplaceAll(output, "\n ", "\n")
+	output = string(regexp.MustCompile("\n+\\s+").ReplaceAll([]byte(output), []byte("\n")))
 	return &output, nil
 }
 
@@ -45,11 +46,7 @@ func (e *Extractor) extractText(plainText *strings.Builder, node *html.Node) {
 		text := strings.TrimSpace(node.Data)
 		if text != "" {
 			if plainText.Len() > 0 {
-				if found := e.blockTags[node.Parent.DataAtom.String()]; found {
-					plainText.WriteString("\n")
-				} else {
-					plainText.WriteString(" ")
-				}
+				plainText.WriteString(" ")
 			}
 			plainText.WriteString(text)
 		}
@@ -61,5 +58,8 @@ func (e *Extractor) extractText(plainText *strings.Builder, node *html.Node) {
 
 	for child := node.FirstChild; child != nil; child = child.NextSibling {
 		e.extractText(plainText, child)
+	}
+	if found := e.blockTags[node.DataAtom.String()]; found {
+		plainText.WriteString("\n")
 	}
 }
