@@ -28,6 +28,18 @@ if err != nil {
 fmt.Println(output)
 // Output: H1 \nitalic bold code `not code link image strikethrough
 ```
+#### Benchmark
+```shell
+goos: windows
+goarch: amd64
+pkg: github.com/huantt/plaintext-extractor/markdown
+cpu: 11th Gen Intel(R) Core(TM) i5-1155G7 @ 2.50GHz
+BenchmarkMarkdownExtractorMediumSize
+BenchmarkMarkdownExtractorMediumSize-8   	12194006	        89.09 ns/op	      16 B/op	       1 allocs/op
+BenchmarkMarkdownExtractorLargeSize
+BenchmarkMarkdownExtractorLargeSize-8    	12645927	        88.25 ns/op	      16 B/op	       1 allocs/op
+PASS
+```
 
 ### Custom Markdown Tag
 ```go
