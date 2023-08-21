@@ -2,9 +2,11 @@ package markdown
 
 import (
 	"fmt"
-	"github.com/stretchr/testify/assert"
+	"os"
 	"regexp"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestExtract(t *testing.T) {
@@ -52,5 +54,27 @@ func TestCustomTag(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotNil(t, output)
 		assert.Equal(t, test.expected, *output)
+	}
+}
+
+func BenchmarkMarkdownExtractorMediumSize(b *testing.B) {
+	data, _ := os.ReadFile("testdata/markdown/go-validator.md")
+	input := string(data)
+
+	extractor := NewExtractor()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_, _ = extractor.PlainText(input)
+	}
+}
+
+func BenchmarkMarkdownExtractorLargeSize(b *testing.B) {
+	data, _ := os.ReadFile("testdata/markdown/awesome-go.md")
+	input := string(data)
+
+	extractor := NewExtractor()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_, _ = extractor.PlainText(input)
 	}
 }
